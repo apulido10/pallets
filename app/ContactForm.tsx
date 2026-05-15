@@ -132,6 +132,24 @@ export default function ContactForm() {
           {status === "sending" ? "Sending…" : "Send Message"}
         </button>
 
+        <p className="text-center text-xs text-slate-500">
+          By submitting, you agree to our{" "}
+          <a
+            href="/privacy"
+            className="font-medium underline decoration-slate-300 underline-offset-2 hover:text-slate-700"
+          >
+            Privacy Policy
+          </a>{" "}
+          and{" "}
+          <a
+            href="/terms"
+            className="font-medium underline decoration-slate-300 underline-offset-2 hover:text-slate-700"
+          >
+            Terms of Service
+          </a>
+          .
+        </p>
+
         {status === "sent" && (
           <p
             role="status"

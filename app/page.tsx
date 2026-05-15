@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import Carousel from "./Carousel";
 import ContactForm from "./ContactForm";
 
@@ -538,7 +539,7 @@ export default function Home() {
       </main>
 
       <footer className="bg-slate-950 py-8 text-center text-sm text-slate-400">
-        <div className="mx-auto flex max-w-7xl flex-col items-center gap-2 px-6">
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-3 px-6">
           <Image
             src="/logo.png"
             alt="Pallets Extra Solutions logo"
@@ -550,6 +551,14 @@ export default function Home() {
             © {new Date().getFullYear()} Pallets Extra Solutions LLC · Dallas,
             TX
           </p>
+          <nav className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs">
+            <Link href="/privacy" className="hover:text-white">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="hover:text-white">
+              Terms of Service
+            </Link>
+          </nav>
         </div>
       </footer>
     </div>
