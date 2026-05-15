@@ -5,6 +5,33 @@ const RATE_LIMIT_MAX = 5;
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
 const submissions = new Map<string, number[]>();
 
+const ALLOWED_HOSTS = new Set([
+  "palletsextrasolutionsllc.com",
+  "www.palletsextrasolutionsllc.com",
+  "localhost",
+  "localhost:3000",
+  "127.0.0.1:3000",
+]);
+
+const MIN_FORM_FILL_MS = 2000;
+
+function hostFromHeader(value: string | null): string | null {
+  if (!value) return null;
+  try {
+    return new URL(value).host;
+  } catch {
+    return null;
+  }
+}
+
+function isAllowedOrigin(request: Request): boolean {
+  const originHost = hostFromHeader(request.headers.get("origin"));
+  if (originHost && ALLOWED_HOSTS.has(originHost)) return true;
+  const refererHost = hostFromHeader(request.headers.get("referer"));
+  if (refererHost && ALLOWED_HOSTS.has(refererHost)) return true;
+  return false;
+}
+
 function getClientIp(request: Request): string {
   const fwd = request.headers.get("x-forwarded-for");
   if (fwd) return fwd.split(",")[0].trim();
@@ -49,11 +76,18 @@ export async function POST(request: Request) {
     );
   }
 
+  // Reject requests not coming from our own site (catches bots that POST
+  // directly to /api/contact without going through the page).
+  if (!isAllowedOrigin(request)) {
+    return Response.json({ ok: true });
+  }
+
   let body: {
     name?: unknown;
     email?: unknown;
     message?: unknown;
     company?: unknown;
+    elapsedMs?: unknown;
   };
   try {
     body = await request.json();
@@ -67,6 +101,15 @@ export async function POST(request: Request) {
   // Honeypot: real users never see this field, bots fill everything.
   // Pretend success so spammers think it went through.
   if (typeof body.company === "string" && body.company.trim() !== "") {
+    return Response.json({ ok: true });
+  }
+
+  // Minimum form-fill time: real users take at least a couple seconds.
+  // Field is set by the browser-side form, so requests missing it are
+  // either bots that didn't run JS or replayed payloads.
+  const elapsed =
+    typeof body.elapsedMs === "number" ? body.elapsedMs : Number.NaN;
+  if (!Number.isFinite(elapsed) || elapsed < MIN_FORM_FILL_MS) {
     return Response.json({ ok: true });
   }
 

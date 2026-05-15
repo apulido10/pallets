@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const BRAND = "#F26522";
 
@@ -9,6 +9,7 @@ type Status = "idle" | "sending" | "sent" | "error";
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const mountedAtRef = useRef<number>(Date.now());
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -22,6 +23,7 @@ export default function ContactForm() {
       email: String(data.get("email") ?? ""),
       message: String(data.get("message") ?? ""),
       company: String(data.get("company") ?? ""),
+      elapsedMs: Date.now() - mountedAtRef.current,
     };
 
     try {
