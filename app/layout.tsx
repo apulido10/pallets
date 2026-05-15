@@ -12,10 +12,71 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const SITE_URL = "https://palletsextrasolutionsllc.com";
+const SITE_TITLE =
+  "Pallets Extra Solutions LLC — Custom Pallet Manufacturing, Repair & Recycling in Dallas, TX";
+const SITE_DESCRIPTION =
+  "Custom pallet design, recycling, repair, and full-service pallet solutions for businesses across Texas. Call (214) 462-0861 for a free quote.";
+
 export const metadata: Metadata = {
-  title: "Pallets Extra Solutions — Custom Pallet Manufacturing & Recycling in Dallas, TX",
-  description:
-    "Pallets Extra Solutions provides custom pallet manufacturing, repair, recycling, and management services for logistics, warehouse, and industrial businesses across Dallas, TX.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SITE_TITLE,
+    template: "%s | Pallets Extra Solutions LLC",
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: "Pallets Extra Solutions LLC",
+  authors: [{ name: "Pallets Extra Solutions LLC" }],
+  keywords: [
+    "custom pallets",
+    "pallet manufacturing",
+    "pallet recycling",
+    "pallet repair",
+    "wooden pallets Dallas",
+    "shipping pallets Texas",
+    "pallet management",
+    "Dallas pallet company",
+    "pallet supplier Texas",
+    "wood pallets",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    siteName: "Pallets Extra Solutions LLC",
+    images: [
+      {
+        url: "/IMG_20260514_175729.jpg",
+        alt: "Stacks of wooden pallets at Pallets Extra Solutions",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: ["/IMG_20260514_175729.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/logo.png",
+  },
+  category: "business",
 };
 
 export default function RootLayout({

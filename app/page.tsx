@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Carousel from "./Carousel";
+import ContactForm from "./ContactForm";
 
 const features = [
   {
@@ -49,9 +51,69 @@ const additionalServices = [
 
 const BRAND = "#F26522";
 
+const SITE_URL = "https://palletsextrasolutionsllc.com";
+
+const businessJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": SITE_URL,
+  name: "Pallets Extra Solutions LLC",
+  url: SITE_URL,
+  image: `${SITE_URL}/logo.png`,
+  logo: `${SITE_URL}/logo.png`,
+  telephone: "+1-214-462-0861",
+  email: "Extrapallets86@gmail.com",
+  description:
+    "Custom pallet design, recycling, repair, and full-service pallet solutions for businesses across Texas.",
+  priceRange: "$$",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "6365 River Wharf Dr",
+    addressLocality: "Dallas",
+    addressRegion: "TX",
+    postalCode: "75212",
+    addressCountry: "US",
+  },
+  areaServed: [
+    { "@type": "State", name: "Texas" },
+    { "@type": "City", name: "Dallas" },
+  ],
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Pallet Services",
+    itemListElement: [
+      {
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: "Custom Pallet Design" },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: "Pallet Repair & Refurbishing" },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: "Pallet Recycling" },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: "Pallet Management Solutions" },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: "Heat Treatment & Compliance" },
+      },
+    ],
+  },
+  sameAs: [],
+};
+
 export default function Home() {
   return (
     <div className="flex flex-col bg-white text-slate-800">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(businessJsonLd) }}
+      />
       <header className="sticky top-0 z-50 border-b border-slate-200 bg-white shadow-sm">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           {/* Mobile header — centered, two-row */}
@@ -266,6 +328,13 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Showcase carousel */}
+        <section className="bg-white">
+          <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 sm:py-14">
+            <Carousel />
+          </div>
+        </section>
+
         {/* About */}
         <section id="about" className="bg-white">
           <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 sm:py-20">
@@ -318,73 +387,7 @@ export default function Home() {
 
             <div className="mt-8 grid gap-6 sm:mt-10 sm:gap-8 md:grid-cols-2">
               {/* Form */}
-              <form
-                action="mailto:Extrapallets86@gmail.com"
-                method="post"
-                encType="text/plain"
-                className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:p-8"
-              >
-                <p className="text-sm font-semibold text-slate-900">
-                  Send us a message
-                </p>
-                <div className="mt-5 space-y-4">
-                  <div>
-                    <label
-                      htmlFor="name"
-                      className="block text-xs font-medium text-slate-600"
-                    >
-                      Name
-                    </label>
-                    <input
-                      id="name"
-                      name="Name"
-                      type="text"
-                      required
-                      className="mt-1 w-full rounded-md border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 focus:border-[color:var(--brand)] focus:bg-white focus:outline-none"
-                      style={{ ["--brand" as string]: BRAND }}
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-xs font-medium text-slate-600"
-                    >
-                      Email
-                    </label>
-                    <input
-                      id="email"
-                      name="Email"
-                      type="email"
-                      required
-                      className="mt-1 w-full rounded-md border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 focus:border-[color:var(--brand)] focus:bg-white focus:outline-none"
-                      style={{ ["--brand" as string]: BRAND }}
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="message"
-                      className="block text-xs font-medium text-slate-600"
-                    >
-                      Message
-                    </label>
-                    <textarea
-                      id="message"
-                      name="Message"
-                      rows={5}
-                      required
-                      className="mt-1 w-full resize-none rounded-md border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 focus:border-[color:var(--brand)] focus:bg-white focus:outline-none"
-                      style={{ ["--brand" as string]: BRAND }}
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full rounded-md py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
-                    style={{ backgroundColor: BRAND }}
-                  >
-                    Send Message
-                  </button>
-                </div>
-              </form>
+              <ContactForm />
 
               {/* Info card */}
               <div className="flex flex-col rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:p-8">
